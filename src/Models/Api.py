@@ -5,6 +5,63 @@ import urequests
 import ujson
 
 
+def get_binance_price (crypto: str, base_currency: str = 'USDT'):
+    """Obtiene el precio actual de una criptomoneda desde la API pública de Binance."""
+    try:
+        # API endpoint de Binance para obtener el precio
+        url = f'https://api.binance.com/api/v3/ticker/price?symbol={crypto.upper()}{base_currency}'
+
+        # Realizamos la solicitud GET
+        response = urequests.get(url)
+
+        # Verificamos que la respuesta es exitosa
+        if response.status_code == 200:
+            data = response.json()  # Convertimos la respuesta a formato JSON
+            price = float(data['price'])  # Obtenemos el precio
+            response.close()
+            return price
+        else:
+            print("Error: No se pudo obtener el precio de Binance.")
+            return None
+    except Exception as e:
+        print("Error al obtener el precio:", e)
+        return None
+
+def get_time_utc ():
+    """Obtiene la hora actual en formato UTC desde la API 'worldtimeapi.org'."""
+    try:
+        response = urequests.get('http://worldtimeapi.org/api/timezone/Etc/UTC.json')
+        data = response.json()
+        response.close()
+
+        # Extraer la fecha y hora en formato 'YYYY-MM-DDTHH:MM:SS.ssssss+00:00'
+        datetime_str = data['datetime']
+        # El formato es '2024-11-11T06:20:25.522376+00:00'
+        datetime_parts = datetime_str.split('T')  # Divide 'YYYY-MM-DD' y 'HH:MM:SS.ssssss+00:00'
+        date_part = datetime_parts[0]  # '2024-11-11'
+        time_part = datetime_parts[1].split('+')[0]  # '06:20:25.522376' (ignoramos la zona horaria)
+
+        # Desglosar la fecha
+        year, month, day = map(int, date_part.split('-'))
+
+        # Desglosar la hora (tomando solo hora, minuto y segundo)
+        time_parts = time_part.split(':')
+        hour = int(time_parts[0])
+        minute = int(time_parts[1])
+        second = int(float(time_parts[2]))  # Convertimos la parte de los segundos en entero
+
+        # Información adicional
+        day_of_week = data['day_of_week']
+        day_of_year = data['day_of_year']
+        week_number = data['week_number']
+
+        return year, month, day, hour, minute, second, day_of_week, day_of_year, week_number
+
+    except Exception as e:
+        print("Error obtaining the time from the API:", e)
+        return None
+
+
 class Api:
     """
     A class representing an API connection with methods to interact with the endpoint.
@@ -89,3 +146,4 @@ class Api:
                 print("Error al obtener los datos de la api: ", e)
 
             return False
+
