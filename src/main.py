@@ -1,6 +1,6 @@
 import gc
 from time import sleep_ms, time
-from Models.Api import Api
+#from Models.Api import Api
 from Models.Api import get_binance_price
 from Models.RpiPico import RpiPico
 from Models.Max7219 import Max7219
@@ -38,7 +38,7 @@ display.write_to_buffer_with_dots("Inicio..")
 display.display()
 need_api_update = True
 
-# Pausa preventiva al desarrollar (ajustar, pero si usas dos hilos puede ahorrar tiempo por bloqueos de hardware ante errores)
+# Pausa preventiva al desarrollar
 sleep_ms(3000)
 
 # Diccionario de monedas
@@ -63,25 +63,31 @@ selected_currency = "ADA"
 # Función que maneja la pulsación del botón del encoder
 def encoder_press (pin):
     global in_selection, val_old, selected_currency, need_api_update
-    print('Se ha pulsado el encoder')
+
+    if env.DEBUG:
+        print('Se ha pulsado el encoder')
 
     # Si no estamos en selección, entramos al menú
     if not in_selection:
+        if env.DEBUG:
+            print("Entrando al menú de selección de moneda...")
+
         in_selection = True
-        print("Entrando al menú de selección de moneda...")
         display.write_to_buffer(f"SEL-{selected_currency}")
         display.display()
     else:
+        if env.DEBUG:
+            print("Saliendo del menú...")
+
         # Si estamos en selección, salimos del menú
         in_selection = False
-        print("Saliendo del menú...")
         display.write_to_buffer(f"CURR-{selected_currency}")
         display.display()
         need_api_update = True
 
     # Esperamos a que se suelte el botón para evitar múltiples presiones
     while pin.value() == 0:
-        sleep_ms(50)
+        sleep_ms(150)
 
 
 # Función para actualizar la moneda seleccionada en el menú
@@ -97,18 +103,22 @@ def update_currency_selection ():
         if 0 <= val_new < len(currency_map):
             # Usamos el valor del encoder para seleccionar la moneda correspondiente
             selected_currency = list(currency_map.keys())[val_new]
-            print(f"Moneda seleccionada: {selected_currency}")
+
+            if env.DEBUG:
+                print(f"Moneda seleccionada: {selected_currency}")
+
             display.write_to_buffer(f"SEL- {selected_currency}")
             display.display()
         else:
-            print("Valor de encoder fuera de rango: ", val_new)
+
+            if env.DEBUG:
+                print("Valor de encoder fuera de rango: ", val_new)
 
     sleep_ms(50)
 
 
 # Callback para la interrupción del botón del encoder (para manejar las pulsaciones)
 SW = rpi.set_callback_to_pin(13, encoder_press)
-
 
 # Tiempo en el que se llamó a la función
 last_called_time = time()
@@ -136,7 +146,7 @@ def thread0 ():
                 need_api_update = False
 
                 if price:
-                    display.write_to_buffer_with_dots(f"{selected_currency}-{price:.2f}E")
+                    display.write_to_buffer_with_dots(f"{selected_currency}{price:.2f}")
                     display.display()
 
         sleep_ms(50)
