@@ -1,10 +1,11 @@
-# CryptoWatchDog - Raspberry Pi Pico W - Watchdog para Precios de Criptomonedas
+# Proyecto CryptoWatchDog - Raspberry Pi Pico W - Watchdog para Precios de Criptomonedas
 
 Este proyecto en MicroPython permite monitorear los precios de criptomonedas y mostrarlos en una pantalla de 8 dígitos con 7 segmentos utilizando el chip MAX7219. El proyecto también incluye un codificador rotatorio (encoder) para permitir la navegación o ajuste de parámetros (como la criptomoneda a monitorizar).
 
 Sitio web del autor: [https://raupulus.dev](https://raupulus.dev)
 
-![Imagen del Proyecto](docs/images/img1.jpg "Imagen Principal de raspberry pi pico w")
+![Imagen del Proyecto](docs/images/1.jpeg "Imagen Principal de raspberry pi 
+pico w")
 
 Repository [https://gitlab.com/raupulus/rpi-pico-watchdog-cryptocoin-prices](https://gitlab.com/raupulus/rpi-pico-watchdog-cryptocoin-prices)
 
@@ -15,10 +16,11 @@ Este proyecto tiene como objetivo proporcionar una forma visual de monitorear lo
 Además, el proyecto incluye un codificador rotatorio que permite la interacción con el sistema para cambiar el valor o configurar opciones, como la criptomoneda que se está monitoreando.
 
 <p align="center">
-  <img src="docs/images/2.jpg" alt="Raspberry pi pico w image 1" height="150">
-  <img src="docs/images/3.jpg" alt="Raspberry pi pico w image 2" height="150">
-  <img src="docs/images/4.jpg" alt="Raspberry pi pico w image 3" height="150">
-  <img src="docs/images/scheme_thumbnail.jpg" alt="Raspberry pi pico w esquema de pines" height="150">
+  <img src="docs/images/2.jpeg" alt="Raspberry pi pico w image 1" height="150">
+  <img src="docs/images/3.jpeg" alt="Raspberry pi pico w image 2" height="150">
+  <img src="docs/images/4.jpeg" alt="Raspberry pi pico w image 3" height="150">
+  <img src="docs/images/5.jpeg" alt="Raspberry pi pico w esquema de pines" 
+height="150">
 </p>
 
 ## Requisitos
@@ -54,14 +56,16 @@ El codificador rotatorio está conectado a los siguientes pines de la Raspberry 
 
 El pinout de la Raspberry Pi Pico W se puede consultar en la documentación oficial. A continuación, se presentan las conexiones clave utilizadas en este proyecto:
 
-| **Pin**         | **Función**                     |
-|-----------------|----------------------------------|
-| GPIO 10         | SCK (para MAX7219)              |
-| GPIO 11         | DIN (para MAX7219)              |
-| GPIO 9          | CS (para MAX7219)               |
-| GPIO 15         | DT (para el encoder rotatorio)  |
-| GPIO 14         | CLK (para el encoder rotatorio) |
-| GPIO 13         | SW (para el encoder rotatorio)  |
+| **Pin** | **Función**                     |
+|---------|---------------------------------|
+| GPIO 10 | SCK (para MAX7219)              |
+| GPIO 11 | DIN (para MAX7219)              |
+| GPIO 9  | CS (para MAX7219)               |
+| GPIO 15 | DT (para el encoder rotatorio)  |
+| GPIO 14 | CLK (para el encoder rotatorio) |
+| GPIO 13 | SW (para el encoder rotatorio)  |
+| GPIO 16 | Botón 1 bajar brillo            |
+| GPIO 17 | Botón 2 subir brillo            |
 
 ## Contenido del Repositorio
 
@@ -108,6 +112,28 @@ La pantalla mostrará la criptomoneda actualmente seleccionada, y el codificador
 
 - **Rotación**: Cambia entre las criptomonedas disponibles.
 - **Presión del botón (SW)**: Selecciona la criptomoneda para mostrar su precio.
+
+## Diseño Modelo 3D
+
+Para el proyecto he creado un diseño en 3D del cual te puedes descargar el 
+modelo de las siguientes plataformas:
+
+[Thingiverse](https://www.thingiverse.com/thing:6828803)
+
+[Printables](https://www.printables.com/model/1070672-crypto-watchdog-project-raspberry-pi-pico)
+
+[MakerWorld Bambulab](https://makerworld.com/es/models/780295#profileId-717260)
+
+<p align="center">
+  <img src="docs/images/3d/1.jpeg" alt="Diseño 3D parte delantera interior" 
+height="150">
+  <img src="docs/images/3d/2.jpeg" alt="Diseño 3D parte delantera" 
+height="150">
+  <img src="docs/images/3d/3.jpeg" alt="Diseño 3D parte trasera" 
+height="150">
+  <img src="docs/images/3d/4.jpeg" alt="Diseño 3D parte delantera frontal 
+completo" height="150">
+</p>
 
 ## Licencia
 

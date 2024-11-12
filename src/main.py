@@ -32,14 +32,46 @@ spi = rpi.set_spi(10, 11, None, 9, bus=1, baudrate=1000000)
 display = Max7219(spi, 9)
 
 # Inicializa el display
+current_brightness = 1
 display.reset()  # Resetear la pantalla
-display.set_intensity(1)
+display.set_intensity(current_brightness)
 display.write_to_buffer_with_dots("Inicio..")
 display.display()
 need_api_update = True
 
 # Pausa preventiva al desarrollar
 sleep_ms(3000)
+
+
+
+
+def bright_up():
+    global current_brightness
+
+    if current_brightness < 15:
+        current_brightness += 1
+        display.set_intensity(current_brightness)
+        display.display()
+
+        if env.DEBUG:
+            print(current_brightness)
+
+def bright_down():
+    global current_brightness
+
+    if current_brightness > 1:
+        current_brightness += 1
+        display.set_intensity(current_brightness)
+        display.display()
+
+        if env.DEBUG:
+            print(current_brightness)
+
+# Botones
+btn1 = rpi.set_callback_to_pin(16, bright_down)
+btn2 = rpi.set_callback_to_pin(17, bright_up)
+
+
 
 # Diccionario de monedas
 currency_map = { "ADA": "ada", "BTC": "btc", "ETH": "eth", "BNB": "bnb",
@@ -146,7 +178,11 @@ def thread0 ():
                 need_api_update = False
 
                 if price:
-                    display.write_to_buffer_with_dots(f"{selected_currency}{price:.2f}")
+
+                    if price < 100:
+                        display.write_to_buffer_with_dots(f"{selected_currency} {price:.2f}")
+                    else:
+                        display.write_to_buffer_with_dots(f"{selected_currency}{price:.2f}")
                     display.display()
 
         sleep_ms(50)
